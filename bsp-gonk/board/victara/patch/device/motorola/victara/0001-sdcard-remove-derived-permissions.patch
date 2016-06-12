@@ -1,0 +1,25 @@
+From 8e24ad300b28917dad09807bf993e80efc0537d6 Mon Sep 17 00:00:00 2001
+From: Felipe Angel <fangel@hugeinc.com>
+Date: Sun, 12 Jun 2016 01:20:24 -0500
+Subject: [PATCH] sdcard: remove derived permissions
+
+---
+ rootdir/etc/init.qcom.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rootdir/etc/init.qcom.rc b/rootdir/etc/init.qcom.rc
+index f4f6a86..c9c6f89 100644
+--- a/rootdir/etc/init.qcom.rc
++++ b/rootdir/etc/init.qcom.rc
+@@ -808,7 +808,7 @@ service container /system/bin/sdcard /data/container /mnt/shell/container 1000 1
+     oneshot
+ 
+ # virtual sdcard daemon running as media_rw (1023)
+-service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
++service sdcard /system/bin/sdcard -u 1023 -g 1023 /data/media /mnt/shell/emulated
+     class late_start
+     oneshot
+ 
+-- 
+2.5.4 (Apple Git-61)
+
