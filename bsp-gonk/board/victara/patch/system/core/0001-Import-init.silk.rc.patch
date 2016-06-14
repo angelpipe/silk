@@ -1,23 +1,25 @@
-From 01c51a7f2c71969cc122e5f762ab1f7753dc04df Mon Sep 17 00:00:00 2001
-From: Chris Jones <chris@silklabs.com>
-Date: Sat, 23 May 2015 16:20:21 -0700
+From 57a60a423a3f7bb96a196421323bdc9db8f6d0cc Mon Sep 17 00:00:00 2001
+From: Felipe Angel <angelpipe@gmail.com>
+Date: Mon, 13 Jun 2016 15:03:58 -0500
 Subject: [PATCH] Import init.silk.rc
 
 ---
- rootdir/init.rc | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ rootdir/init.rc | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index cbcb842..7bcac6b 100644
+index 488deba..cb6a6f6 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -633,3 +633,6 @@ service pre-recovery /system/bin/uncrypt
-     class main
+@@ -636,6 +636,8 @@ service pre-recovery /system/bin/uncrypt
      disabled
      oneshot
-+
+ 
 +import /init.silk.rc
 +
+ on property:ro.build.type=eng
+     chmod 0777 /data/anr
+     chmod 0777 /data/misc
 -- 
-1.9.1
+2.8.4
 

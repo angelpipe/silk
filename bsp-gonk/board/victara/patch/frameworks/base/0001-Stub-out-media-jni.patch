@@ -1,17 +1,17 @@
-From 85e3058eacc53e698998c73110cef79da50c6869 Mon Sep 17 00:00:00 2001
-From: Michael Vines <mvines@silklabs.com>
-Date: Sun, 28 Jun 2015 00:59:09 -0700
-Subject: [PATCH] Stub out media/jni/
+From ba555924e30b81497fc5cc7793abf5d382f80ca0 Mon Sep 17 00:00:00 2001
+From: Felipe Angel <angelpipe@gmail.com>
+Date: Mon, 13 Jun 2016 14:24:29 -0500
+Subject: [PATCH] Stub out media/jni
 
 ---
- media/jni/Android.mk | 75 ----------------------------------------------------
- 1 file changed, 75 deletions(-)
+ media/jni/Android.mk | 76 ----------------------------------------------------
+ 1 file changed, 76 deletions(-)
 
 diff --git a/media/jni/Android.mk b/media/jni/Android.mk
-index 90fe695..e69de29 100644
+index 659a315..e69de29 100644
 --- a/media/jni/Android.mk
 +++ b/media/jni/Android.mk
-@@ -1,75 +0,0 @@
+@@ -1,76 +0,0 @@
 -LOCAL_PATH:= $(call my-dir)
 -include $(CLEAR_VARS)
 -
@@ -25,6 +25,7 @@ index 90fe695..e69de29 100644
 -    android_media_MediaHTTPConnection.cpp \
 -    android_media_MediaMuxer.cpp \
 -    android_media_MediaPlayer.cpp \
+-    android_media_ExtMediaPlayer.cpp \
 -    android_media_MediaRecorder.cpp \
 -    android_media_MediaScanner.cpp \
 -    android_media_MediaMetadataRetriever.cpp \
@@ -88,5 +89,5 @@ index 90fe695..e69de29 100644
 -# build libaudioeffect_jni.so
 -include $(call all-makefiles-under,$(LOCAL_PATH))
 -- 
-1.9.1
+2.8.4
 

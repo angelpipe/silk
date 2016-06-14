@@ -1,6 +1,6 @@
-From 04871975a84762320b6a37a6581085bb3e7a6fdb Mon Sep 17 00:00:00 2001
-From: Michael Vines <mvines@silklabs.com>
-Date: Sun, 12 Jul 2015 21:57:23 -0700
+From 2521459772bac15685114d220ee922823abd2393 Mon Sep 17 00:00:00 2001
+From: Felipe Angel <angelpipe@gmail.com>
+Date: Mon, 13 Jun 2016 15:10:55 -0500
 Subject: [PATCH] sdcard: remove /data version check
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH] sdcard: remove /data version check
  1 file changed, 5 deletions(-)
 
 diff --git a/sdcard/sdcard.c b/sdcard/sdcard.c
-index 9cfb040..82d0748 100644
+index 76d1165..c735aae 100644
 --- a/sdcard/sdcard.c
 +++ b/sdcard/sdcard.c
-@@ -1965,11 +1965,6 @@ int main(int argc, char **argv)
+@@ -2020,11 +2020,6 @@ int main(int argc, char **argv)
          ERROR("Error setting RLIMIT_NOFILE, errno = %d\n", errno);
      }
  
@@ -24,5 +24,5 @@ index 9cfb040..82d0748 100644
      return res < 0 ? 1 : 0;
  }
 -- 
-1.9.1
+2.8.4
 

@@ -1,30 +1,31 @@
-From ccaef0568151a2c48912468db3deed7899baf1b0 Mon Sep 17 00:00:00 2001
+From b69a54cd74af5601f1be0f4402693288a5b8637f Mon Sep 17 00:00:00 2001
 From: Michael Vines <mvines@silklabs.com>
-Date: Sun, 28 Jun 2015 01:01:59 -0700
+Date: Fri, 29 Apr 2016 20:08:54 -0700
 Subject: [PATCH] Remove DRM
 
+Change-Id: I0360b01ebf33e7af718d40fd7728cc5be349abf2
 ---
  drm/Android.mk                                     |  0
  media/libmediaplayerservice/Android.mk             |  1 -
  .../nuplayer/GenericSource.cpp                     |  3 --
- media/libstagefright/Android.mk                    |  2 --
- media/libstagefright/AwesomePlayer.cpp             | 36 -------------------
- media/libstagefright/DataSource.cpp                |  5 ---
- media/libstagefright/FileSource.cpp                | 41 +---------------------
- media/libstagefright/MediaExtractor.cpp            | 10 +-----
+ media/libstagefright/Android.mk                    |  2 -
+ media/libstagefright/AwesomePlayer.cpp             | 54 ----------------------
+ media/libstagefright/DataSource.cpp                |  5 --
+ media/libstagefright/FileSource.cpp                | 41 +---------------
+ media/libstagefright/MediaExtractor.cpp            | 10 +---
  media/libstagefright/http/Android.mk               |  2 +-
- media/libstagefright/http/MediaHTTP.cpp            | 21 +----------
- 10 files changed, 4 insertions(+), 117 deletions(-)
+ media/libstagefright/http/MediaHTTP.cpp            | 21 +--------
+ 10 files changed, 4 insertions(+), 135 deletions(-)
  create mode 100644 drm/Android.mk
 
 diff --git a/drm/Android.mk b/drm/Android.mk
 new file mode 100644
 index 0000000..e69de29
 diff --git a/media/libmediaplayerservice/Android.mk b/media/libmediaplayerservice/Android.mk
-index 2cf5710..e36c032 100644
+index 8ebc7c0..7f904b3 100644
 --- a/media/libmediaplayerservice/Android.mk
 +++ b/media/libmediaplayerservice/Android.mk
-@@ -29,7 +29,6 @@ LOCAL_SHARED_LIBRARIES :=       \
+@@ -28,7 +28,6 @@ LOCAL_SHARED_LIBRARIES :=       \
      libcamera_client            \
      libcrypto                   \
      libcutils                   \
@@ -33,10 +34,10 @@ index 2cf5710..e36c032 100644
      libdl                       \
      libgui                      \
 diff --git a/media/libmediaplayerservice/nuplayer/GenericSource.cpp b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
-index 1b2fc5e..1e316ac 100644
+index d6b267b..834be80 100644
 --- a/media/libmediaplayerservice/nuplayer/GenericSource.cpp
 +++ b/media/libmediaplayerservice/nuplayer/GenericSource.cpp
-@@ -604,9 +604,6 @@ void NuPlayer::GenericSource::disconnect() {
+@@ -740,9 +740,6 @@ void NuPlayer::GenericSource::disconnect() {
  }
  
  void NuPlayer::GenericSource::setDrmPlaybackStatusIfNeeded(int playbackStatus, int64_t position) {
@@ -47,10 +48,10 @@ index 1b2fc5e..1e316ac 100644
      mTimedTextTrack.mPackets = new AnotherPacketSource(NULL);
  }
 diff --git a/media/libstagefright/Android.mk b/media/libstagefright/Android.mk
-index 193f8a7..a0d5196 100644
+index 594e2db..f74fbdb 100644
 --- a/media/libstagefright/Android.mk
 +++ b/media/libstagefright/Android.mk
-@@ -18,7 +18,6 @@ LOCAL_SRC_FILES:=                         \
+@@ -37,7 +37,6 @@ LOCAL_SRC_FILES:=                         \
          CodecBase.cpp                     \
          DataSource.cpp                    \
          DataURISource.cpp                 \
@@ -58,7 +59,7 @@ index 193f8a7..a0d5196 100644
          ESDS.cpp                          \
          FileSource.cpp                    \
          FLACExtractor.cpp                 \
-@@ -79,7 +78,6 @@ LOCAL_SHARED_LIBRARIES := \
+@@ -105,7 +104,6 @@ LOCAL_SHARED_LIBRARIES := \
          libcamera_client \
          libcutils \
          libdl \
@@ -67,10 +68,24 @@ index 193f8a7..a0d5196 100644
          libgui \
          libicui18n \
 diff --git a/media/libstagefright/AwesomePlayer.cpp b/media/libstagefright/AwesomePlayer.cpp
-index 007c090..be04c22 100644
+index 1a1f6db..63bcc7d 100644
 --- a/media/libstagefright/AwesomePlayer.cpp
 +++ b/media/libstagefright/AwesomePlayer.cpp
-@@ -522,13 +522,6 @@ void AwesomePlayer::reset_l() {
+@@ -455,13 +455,6 @@ status_t AwesomePlayer::setDataSource_l(
+ }
+ 
+ void AwesomePlayer::checkDrmStatus(const sp<DataSource>& dataSource) {
+-    dataSource->getDrmInfo(mDecryptHandle, &mDrmManagerClient);
+-    if (mDecryptHandle != NULL) {
+-        CHECK(mDrmManagerClient);
+-        if (RightsStatus::RIGHTS_VALID != mDecryptHandle->status) {
+-            notifyListener_l(MEDIA_ERROR, MEDIA_ERROR_UNKNOWN, ERROR_DRM_NO_LICENSE);
+-        }
+-    }
+ }
+ 
+ status_t AwesomePlayer::setDataSource_l(const sp<MediaExtractor> &extractor) {
+@@ -602,13 +595,6 @@ void AwesomePlayer::reset_l() {
  
      notifyListener_l(MEDIA_STOPPED);
  
@@ -84,7 +99,7 @@ index 007c090..be04c22 100644
      if (mFlags & PLAYING) {
          uint32_t params = IMediaPlayerService::kBatteryDataTrackDecoder;
          if ((mAudioSource != NULL) && (mAudioSource != mAudioTrack)) {
-@@ -946,13 +939,6 @@ status_t AwesomePlayer::play_l() {
+@@ -1057,13 +1043,6 @@ status_t AwesomePlayer::play_l() {
      modifyFlags(PLAYING, SET);
      modifyFlags(FIRST_FRAME, SET);
  
@@ -98,7 +113,7 @@ index 007c090..be04c22 100644
      if (mAudioSource != NULL) {
          if (mAudioPlayer == NULL) {
              createAudioPlayer_l();
-@@ -1004,11 +990,6 @@ status_t AwesomePlayer::play_l() {
+@@ -1096,11 +1075,6 @@ status_t AwesomePlayer::play_l() {
  
                  modifyFlags((PLAYING | FIRST_FRAME), CLEAR);
  
@@ -110,7 +125,7 @@ index 007c090..be04c22 100644
                  return err;
              }
          }
-@@ -1299,11 +1280,6 @@ status_t AwesomePlayer::pause_l(bool at_eos) {
+@@ -1447,11 +1421,6 @@ status_t AwesomePlayer::pause_l(bool at_eos) {
  
      modifyFlags(PLAYING, CLEAR);
  
@@ -119,10 +134,10 @@ index 007c090..be04c22 100644
 -                Playback::PAUSE, 0);
 -    }
 -
-     uint32_t params = IMediaPlayerService::kBatteryDataTrackDecoder;
-     if ((mAudioSource != NULL) && (mAudioSource != mAudioTrack)) {
-         params |= IMediaPlayerService::kBatteryDataTrackAudio;
-@@ -1500,12 +1476,6 @@ void AwesomePlayer::seekAudioIfNecessary_l() {
+     if(!(mFlags & VIDEO_AT_EOS)){
+         Mutex::Autolock autoLock(mStatsLock);
+         mStats.mLastPausedTimeMs = mVideoTimeUs/1000;
+@@ -1676,12 +1645,6 @@ void AwesomePlayer::seekAudioIfNecessary_l() {
          mWatchForAudioSeekComplete = true;
          mWatchForAudioEOS = true;
  
@@ -135,7 +150,7 @@ index 007c090..be04c22 100644
      }
  }
  
-@@ -1749,12 +1719,6 @@ void AwesomePlayer::finishSeekIfNecessary(int64_t videoTimeUs) {
+@@ -1964,13 +1927,6 @@ void AwesomePlayer::finishSeekIfNecessary(int64_t videoTimeUs) {
      modifyFlags(FIRST_FRAME, SET);
      mSeeking = NO_SEEK;
  
@@ -145,25 +160,50 @@ index 007c090..be04c22 100644
 -        mDrmManagerClient->setPlaybackStatus(mDecryptHandle,
 -                Playback::START, videoTimeUs / 1000);
 -    }
- }
+-
+     {
+         Mutex::Autolock autoLock(mStatsLock);
+         mStats.mLastSeekToTimeMs = mSeekTimeUs/1000;
+@@ -2136,10 +2092,6 @@ void AwesomePlayer::onVideoEvent() {
  
- void AwesomePlayer::onVideoEvent() {
+             modifyFlags((PLAYING | FIRST_FRAME), CLEAR);
+ 
+-            if (mDecryptHandle != NULL) {
+-               mDrmManagerClient->setPlaybackStatus(
+-                       mDecryptHandle, Playback::STOP, 0);
+-            }
+             return;
+         }
+     }
+@@ -3408,12 +3360,6 @@ status_t AwesomePlayer::suspend() {
+     {
+         Mutex::Autolock autoLock(mLock);
+ 
+-        // Set PAUSE to DrmManagerClient which will be set START in play_l()
+-        if (mDecryptHandle != NULL) {
+-            mDrmManagerClient->setPlaybackStatus(mDecryptHandle,
+-                        Playback::PAUSE, 0);
+-        }
+-
+         cancelPlayerEvents();
+     }
+ 
 diff --git a/media/libstagefright/DataSource.cpp b/media/libstagefright/DataSource.cpp
-index c99db84..b0d9436 100644
+index 31e328a..3810f42 100755
 --- a/media/libstagefright/DataSource.cpp
 +++ b/media/libstagefright/DataSource.cpp
-@@ -173,11 +173,6 @@ void DataSource::RegisterDefaultSniffers() {
-     RegisterSniffer_l(SniffMPEG2PS);
-     RegisterSniffer_l(SniffWVM);
+@@ -201,11 +201,6 @@ void Sniffer::registerDefaultSniffers() {
+     registerSniffer_l(SniffWVM);
+     registerSniffer_l(ExtendedExtractor::Sniff);
  
 -    char value[PROPERTY_VALUE_MAX];
 -    if (property_get("drm.service.enabled", value, NULL)
 -            && (!strcmp(value, "1") || !strcasecmp(value, "true"))) {
--        RegisterSniffer_l(SniffDRM);
+-        registerSniffer_l(SniffDRM);
 -    }
-     gSniffersRegistered = true;
  }
  
+ // static
 diff --git a/media/libstagefright/FileSource.cpp b/media/libstagefright/FileSource.cpp
 index a7ca3da..315b674 100644
 --- a/media/libstagefright/FileSource.cpp
@@ -240,10 +280,10 @@ index a7ca3da..315b674 100644
 -}
  }  // namespace android
 diff --git a/media/libstagefright/MediaExtractor.cpp b/media/libstagefright/MediaExtractor.cpp
-index 9ab6611..1c668e5 100644
+index 4e5b3c3..fcb1863 100755
 --- a/media/libstagefright/MediaExtractor.cpp
 +++ b/media/libstagefright/MediaExtractor.cpp
-@@ -79,15 +79,7 @@ sp<MediaExtractor> MediaExtractor::Create(
+@@ -81,15 +81,7 @@ sp<MediaExtractor> MediaExtractor::Create(
              return NULL;
          }
          ++originalMime;
@@ -273,10 +313,10 @@ index 7f3307d..60be3c1 100644
  
  endif
 diff --git a/media/libstagefright/http/MediaHTTP.cpp b/media/libstagefright/http/MediaHTTP.cpp
-index 2d29913..f773bf5 100644
+index 6c8bbf9..aa73fcc 100644
 --- a/media/libstagefright/http/MediaHTTP.cpp
 +++ b/media/libstagefright/http/MediaHTTP.cpp
-@@ -143,25 +143,7 @@ status_t MediaHTTP::reconnectAtOffset(off64_t offset) {
+@@ -145,25 +145,7 @@ status_t MediaHTTP::reconnectAtOffset(off64_t offset, bool* queryAndSetProxy) {
  // DRM...
  
  sp<DecryptHandle> MediaHTTP::DrmInitialization(const char* mime) {
@@ -303,7 +343,7 @@ index 2d29913..f773bf5 100644
  }
  
  void MediaHTTP::getDrmInfo(
-@@ -197,7 +179,6 @@ void MediaHTTP::clearDRMState_l() {
+@@ -199,7 +181,6 @@ void MediaHTTP::clearDRMState_l() {
      if (mDecryptHandle != NULL) {
          // To release mDecryptHandle
          CHECK(mDrmManagerClient);

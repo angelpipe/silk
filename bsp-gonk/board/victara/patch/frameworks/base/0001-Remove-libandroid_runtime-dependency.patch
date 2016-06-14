@@ -1,15 +1,15 @@
-From 6dd5078953b49bc5ba38a50334e9caae59e5ed3c Mon Sep 17 00:00:00 2001
-From: Michael Vines <mvines@silklabs.com>
-Date: Sun, 28 Jun 2015 01:17:13 -0700
+From 2eb10b963ad5fa34037598336f7ae39337ddc9fc Mon Sep 17 00:00:00 2001
+From: Felipe Angel <angelpipe@gmail.com>
+Date: Mon, 13 Jun 2016 13:50:37 -0500
 Subject: [PATCH] Remove libandroid_runtime dependency
 
 ---
- native/android/Android.mk        | 4 +---
+ native/android/Android.mk        | 3 ---
  native/android/native_window.cpp | 6 +-----
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/native/android/Android.mk b/native/android/Android.mk
-index cda38e0..f33d902 100644
+index cda38e0..3f8412a 100644
 --- a/native/android/Android.mk
 +++ b/native/android/Android.mk
 @@ -8,9 +8,7 @@ include $(CLEAR_VARS)
@@ -22,12 +22,11 @@ index cda38e0..f33d902 100644
      native_window.cpp \
      obb.cpp \
      sensor.cpp \
-@@ -25,7 +23,7 @@ LOCAL_SHARED_LIBRARIES := \
+@@ -25,7 +23,6 @@ LOCAL_SHARED_LIBRARIES := \
      libbinder \
      libui \
      libgui \
 -    libandroid_runtime
-+
  
  LOCAL_STATIC_LIBRARIES := \
      libstorage
@@ -49,5 +48,5 @@ index ca0c902..4bd8bd1 100644
  
  void ANativeWindow_acquire(ANativeWindow* window) {
 -- 
-1.9.1
+2.8.4
 
