@@ -216,4 +216,5 @@
   <project groups="pdk" name="platform/tools/swt" path="tools/swt" revision="LA.BF.1.1.1_rb1.20" clone-depth="1"/>
   <project name="platform/vendor/qcom-opensource/dpm" path="vendor/qcom/opensource/dpm" revision="LA.BF.1.1.1_rb1.20" clone-depth="1"/>
   <project name="TheMuppets/proprietary_vendor_motorola" path="vendor/motorola" clone-depth="1" groups="device,victara" remote="github" revision="cm-12.1"/>
+  <project name="CyanogenMod/android_device_generic_goldfish" path="device/generic/goldfish" clone-depth="1" groups="device,victara" remote="github" revision="cm-12.1"/>
 </manifest>
